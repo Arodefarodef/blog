@@ -1,27 +1,28 @@
 import { Document, model, models, Schema, Types } from "mongoose";
 
-interface iPost {
-  title: string;
-  desc: string;
-  content: string;
+interface iUser {
+  name: string;
+  email: string;
+  password: string;
+  userID: string;
   image: string;
-  user: {};
+  post: {}[];
 }
 
-interface iPostData extends iPost, Document {}
+interface iUserData extends iUser, Document {}
 
-const postData = new Schema<iPostData>(
+const userData = new Schema<iUserData>(
   {
-    title: { type: String, required: true },
-    desc: { type: String },
-    content: { type: String },
+    name: { type: String, required: true },
+    email: { type: String },
+    password: { type: String },
+    userID: { type: String },
     image: { type: String },
-
-    user: { type: Types.ObjectId, ref: "users" },
+    post: [{ type: Types.ObjectId, ref: "posts" }],
   },
   { timestamps: true }
 );
 
-const postModel = models.users || model<iPostData>("posts", postData);
+const userModel = models.users || model<iUserData>("users", userData);
 
-export default postModel;
+export default userModel;
